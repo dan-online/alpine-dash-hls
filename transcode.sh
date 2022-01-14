@@ -36,10 +36,10 @@ echo -e "Total # of frames: ${frames}\n\nCreating Full HD version (no upscaling,
 ffmpeg -y -threads 0 -v error -stats -i "${input_file}" -an -c:v libx264 -x264opts 'keyint=24:min-keyint=24:no-scenecut' -profile:v high -level 4.0 -vf "scale=min'(1920,iw)':-4" -crf 22 -movflags faststart -write_tmcd 0 "output/${filename}/intermed_1080p.mp4" && \
 # 720p@CRF22
 echo -e "Creating HD version (no upscaling, Step 2/4)" && \
-ffmpeg -y -threads 0 -v error -stats -i "${input_file}" -an -c:v libx264 -x264opts 'keyint=24:min-keyint=24:no-scenecut' -profile:v high -level 4.0 -vf "scale=min'(1280,iw)':-4" -crf 22 -movflags faststart -write_tmcd 0 "output/${filename}/intermed_720p.mp4" && \
+ffmpeg -y -threads 0 -v error -stats -i "output/${filename}/intermed_1080p.mp4" -an -c:v libx264 -x264opts 'keyint=24:min-keyint=24:no-scenecut' -profile:v high -level 4.0 -vf "scale=min'(1280,iw)':-4" -crf 22 -movflags faststart -write_tmcd 0 "output/${filename}/intermed_720p.mp4" && \
 # 480p@CRF22
 echo -e "Creating DVD quality version (no upscaling, Step 3/4)" && \
-ffmpeg -y -threads 0 -v error -stats -i "${input_file}" -an -c:v libx264 -x264opts 'keyint=24:min-keyint=24:no-scenecut' -profile:v high -level 4.0 -vf "scale=min'(720,iw)':-4" -crf 22 -movflags faststart -write_tmcd 0 "output/${filename}/intermed_480p.mp4" && \
+ffmpeg -y -threads 0 -v error -stats -i "output/${filename}/intermed_720p.mp4" -an -c:v libx264 -x264opts 'keyint=24:min-keyint=24:no-scenecut' -profile:v high -level 4.0 -vf "scale=min'(720,iw)':-4" -crf 22 -movflags faststart -write_tmcd 0 "output/${filename}/intermed_480p.mp4" && \
 # 128k AAC audio only
 echo -e "Creating audio only version (Step 4/4)" && \
 ffmpeg -y -threads 0 -v error -stats -i "${input_file}" -vn -c:a aac -b:a 128k "output/${filename}/audio_128k.m4a" && \
